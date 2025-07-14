@@ -1,0 +1,45 @@
+#+STARTUP: overview
+#+TITLE: Safe Starting Cells for All Levels - Task List
+#+STARTUP: showall
+
+* Relevant Files
+- [[file:../tasks/2025-06-28-safe-starting-cells-prd.org][../tasks/2025-06-28-safe-starting-cells-prd.org]] :: Safe Starting Cells for All Levels - Product Requirements Document
+- [[file:../src/lib/gameLogic.ts][../src/lib/gameLogic.ts]] :: Core game logic including mine generation and safe cell detection
+- [[file:../src/lib/endlessConfig.ts][../src/lib/endlessConfig.ts]] :: Configuration for endless mode levels and mine density
+- [[file:../src/hooks/useGameState.ts][../src/hooks/useGameState.ts]] :: Game state management hook coordinating level generation
+- [[file:../src/components/Cell.tsx][../src/components/Cell.tsx]] :: Individual cell component with visual styling and interaction handling
+- [[file:../src/components/GameBoard.tsx][../src/components/GameBoard.tsx]] :: Main game board rendering component
+- [[file:../test/gameLogic.test.ts][../test/gameLogic.test.ts]] :: Unit tests for game logic functions
+- [[file:../test/endlessMode.test.ts][../test/endlessMode.test.ts]] :: Unit tests for endless mode functionality
+
+* Notes
+- Safe cell logic currently exists for position (0,0) and needs extension to all levels
+- Each level starts at row index that is a multiple of =LEVEL_CONFIG.rowsPerLevel=
+- Visual styling should reuse existing safe cell indicator classes
+- Touch event handling must bypass flagging for safe cells across all interaction modes
+
+* Tasks
+- [X] 1.0 Extend Mine Generation Logic for Multi-Level Safe Zones [4/4]
+  - [X] 1.1 Add utility function to calculate level start row from any row index
+  - [X] 1.2 Create function to determine safe cell position for any given level
+  - [X] 1.3 Extend mine exclusion logic to apply 3x3 safe zones for all levels
+  - [X] 1.4 Update mine placement algorithm to respect multi-level safe zones
+- [X] 2.0 Update Safe Cell Detection and Styling System [3/3]
+  - [X] 2.1 Extend =isSafeStartingCell= function to work with all levels
+  - [X] 2.2 Update Cell component to apply safe cell styling for all levels
+  - [X] 2.3 Ensure safe cell visual indicators persist until revelation
+- [X] 3.0 Modify Cell Interaction Logic for Safe Cells [4/4]
+  - [X] 3.1 Update click handler to auto-reveal safe cells (bypass flagging)
+  - [X] 3.2 Update right-click handler to auto-reveal safe cells
+  - [X] 3.3 Update touch handlers to auto-reveal safe cells (tap and long-press)
+  - [X] 3.4 Ensure consistent behavior across all interaction modes
+- [X] 4.0 Integrate with Level Generation and State Management [3/3]
+  - [X] 4.1 Update level generation to mark safe cell positions in game state
+  - [X] 4.2 Coordinate safe cell logic with existing level boundary mechanics
+  - [X] 4.3 Ensure safe cells work correctly with viewport scrolling and rendering
+- [X] 5.0 Add Comprehensive Testing for Multi-Level Safe Cells [5/5]
+  - [X] 5.1 Test safe cell detection across multiple levels
+  - [X] 5.2 Test mine exclusion in 3x3 zones for each level
+  - [X] 5.3 Test safe cell interaction behavior (all interaction modes)
+  - [X] 5.4 Test integration with level boundaries and transitions
+  - [X] 5.5 Test visual styling consistency across all levels

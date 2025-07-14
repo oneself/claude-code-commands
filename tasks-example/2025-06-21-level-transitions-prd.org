@@ -1,0 +1,140 @@
+#+STARTUP: overview
+#+TITLE: Level Transitions - Product Requirements Document
+#+STARTUP: showall
+
+* Introduction/Overview
+This feature introduces clear visual level transitions in endless mode
+minesweeper to help players understand progression and experience a sense of
+accomplishment. When mine density changes (every 100 rows by default), a
+horizontal visual break will be displayed with "Level X" text, creating distinct
+gameplay segments. The reveal mechanic will treat these transitions as board
+edges, requiring players to complete each level before proceeding to the next.
+
+** Goal
+Create a clear progression system in endless mode that segments gameplay into
+distinct levels, providing visual feedback for advancement and natural stopping
+points for players.
+
+* Goals
+1. Provide clear visual indication of level progression in endless mode
+2. Create natural gameplay segments that enhance player engagement
+3. Implement level-based reveal boundaries that require completion before progression
+4. Maintain consistent visual design with existing game elements
+5. Ensure smooth integration with existing endless mode mechanics
+
+* User Stories
+** As a player
+- I want to see clear visual indicators when I progress to a new difficulty
+  level so that I understand my advancement through the game
+- I want to complete each level fully before moving to the next so that I have a
+  sense of accomplishment
+- I want level transitions to feel integrated with the existing game design so
+  that the experience feels cohesive
+
+** As a developer
+- I want level configuration to be easily adjustable so that I can modify level
+  progression without touching multiple files
+- I want level transitions to render efficiently so that game performance
+  remains smooth
+
+* Functional Requirements
+1. The system must display level transition elements between levels in endless
+   mode
+2. Level transitions must appear at intervals matching the existing mine density
+   progression (configurable, default every 100 rows)
+3. Each level transition must display "Level X" text where X is the sequential
+   level number starting from 1
+4. The first level must be labeled "Level 1" and appear at the very top of the
+   game board
+5. Level transitions must span the full width of the game board
+6. Level transitions must be approximately 2 rows tall (88px at 44px cell
+   height)
+7. Level transitions must use visual styling consistent with the existing game
+   theme
+8. Cell reveal mechanics must stop at level transition boundaries, treating them
+   as board edges
+9. Cascading reveals must not cross level transition boundaries
+10. Players must complete all unrevealed, non-flagged cells in a level before
+    the next level becomes interactive
+11. Flagging must work normally within each level but not affect cells in other
+    levels
+12. Level transitions must integrate with the existing viewport scrolling system
+13. Level transitions must only render when visible for performance optimization
+14. Level configuration (rows per level, starting level) must be easily
+    configurable in the endless configuration file
+
+* Non-Goals (Out of Scope)
+1. Level-specific scoring or rewards beyond basic progression
+2. Ability to skip levels or jump between non-adjacent levels
+3. Different visual themes or styling per level
+4. Level-specific mine density overrides (uses existing progression)
+5. Animations or special effects when completing levels
+6. Persistent level progress saving across sessions
+7. Level selection or replay functionality
+
+* Design Considerations
+** Visual Design
+- Level transitions should match the existing game card/border styling
+- Use consistent typography with existing UI elements
+- Height should be exactly 2 cell heights (88px) for clean grid alignment
+- Background should complement the existing game board background
+- Text should be centered and clearly readable
+** Layout Integration
+- Level transitions should be positioned between row groups in the endless board
+- Must integrate seamlessly with the existing CSS Grid layout
+- Should not disrupt cell positioning or grid calculations
+
+* Technical Considerations
+** Configuration
+- Level progression intervals should be configurable in
+  =src/lib/endlessConfig.ts=
+- Should reuse existing =ENDLESS_MINE_DENSITY.rowsPerIncrease= value
+- Level numbering calculation should be centralized and reusable
+** Performance
+- Level transitions should use the same visibility-based rendering as cells
+- Should be included in the =visibleRowRange= calculations
+- Must not impact scrolling performance
+** Game Logic Integration
+- Level completion detection should integrate with existing game state management
+- Reveal boundary logic should extend existing cell reveal mechanics
+- Should work with the existing =shouldMuteRow= and related game logic functions
+** Component Architecture
+- Consider creating a dedicated =LevelTransition= component
+- Should integrate with the existing =GameBoard= component structure
+- Must work with the existing endless mode viewport scrolling
+* Success Metrics
+1. Players can clearly identify their current level and progression
+2. Level completion provides a sense of accomplishment (qualitative feedback)
+3. Game performance remains smooth with level transitions (no frame rate drops)
+4. Level transitions integrate seamlessly with existing UI (no visual glitches)
+5. Configuration changes (level intervals) can be made in a single location
+
+* Open Questions
+1. Should there be any visual indication when a level is completed (e.g., brief
+   highlight)? No
+2. How should the level transition look when partially visible during scrolling?
+   Game should scroll up smoothly until "Level X" is positioned at the top of
+   the screen. The user cannot scroll back up.
+3. Should level transitions have any accessibility considerations (ARIA labels,
+   etc.)? No.
+4. How should level numbering handle very high levels (e.g., Level 1000+)?
+   Levels should not need to go over level 99.
+5. Should there be any limit to the number of levels, or should it continue
+   indefinitely? 99 levels at most or if mines get to a density of 100%.
+
+* Implementation Notes
+** Key Files to Modify
+- =src/lib/endlessConfig.ts= - Add level transition configuration
+- =src/components/GameBoard.tsx= - Integrate level transitions in rendering
+- =src/lib/gameLogic.ts= - Extend reveal logic for level boundaries
+- =src/hooks/useGameState.ts= - Add level completion detection
+- Create new =src/components/LevelTransition.tsx= component
+** Configuration Structure
+#+begin_src typescript
+// Example configuration structure
+export const LEVEL_CONFIG = {
+  rowsPerLevel: ENDLESS_MINE_DENSITY.rowsPerIncrease, // Reuse existing value
+  transitionHeight: 88, // 2 * cellSize
+  startingLevel: 1,
+} as const;
+#+end_src

@@ -1,0 +1,73 @@
+#+STARTUP: overview
+#+TITLE: Mineswpr Visual Upgrade - Task List
+#+STARTUP: showall
+
+* Relevant Files
+- [[file:package.json][package.json]] :: Add shadcn/ui dependencies and CLI configuration
+- [[file:components.json][components.json]] :: shadcn/ui configuration file for component installation
+- [[file:src/app/globals.css][src/app/globals.css]] :: Update global styles and Tailwind configuration for dark theme
+- [[file:src/lib/utils.ts][src/lib/utils.ts]] :: shadcn/ui utility functions (cn helper)
+- [[file:src/components/ui/][src/components/ui/]] :: Directory for shadcn/ui components (button, card, etc.)
+- [[file:src/components/Cell.tsx][src/components/Cell.tsx]] :: Redesign game cell with modern styling
+- [[file:file:src/components/GameBoard.tsx][src/components/GameBoard.tsx]] :: Update game board container with card-like styling
+- [[file:src/components/GameBoard.tsx][src/components/GameBoard.tsx]] :: Update game board container with card-like styling
+- [[file:src/components/GameControls.tsx][src/components/GameControls.tsx]] :: Modernize controls with shadcn/ui components
+- [[file:src/components/GameContainer.tsx][src/components/GameContainer.tsx]] :: Update main game container layout
+- [[file:src/components/HamburgerMenu.tsx][src/components/HamburgerMenu.tsx]] :: Redesign menu with shadcn/ui components
+- [[file:src/lib/theme.ts][src/lib/theme.ts]] :: Theme configuration and management system
+- [[file:src/components/ThemeProvider.tsx][src/components/ThemeProvider.tsx]] :: React context provider for theme management
+- [[file:src/components/ThemeSelector.tsx][src/components/ThemeSelector.tsx]] :: Theme selection components (for future use)
+- [[file:src/hooks/useThemeColors.ts][src/hooks/useThemeColors.ts]] :: Custom hook for accessing theme colors
+- [[file:src/lib/typography.ts][src/lib/typography.ts]] :: Typography constants and utility functions
+- [[file:src/app/layout.tsx][src/app/layout.tsx]] :: Update root layout for theme support
+- [[file:tailwind.config.js][tailwind.config.js]] :: Configure Tailwind for shadcn/ui integration
+- [[file:test/components/Cell.test.tsx][test/components/Cell.test.tsx]] :: Update component tests for new styling
+- [[file:test/components/GameBoard.test.tsx][test/components/GameBoard.test.tsx]] :: Update game board tests
+- [[file:test/components/GameControls.test.tsx][test/components/GameControls.test.tsx]] :: Update controls tests
+- [[file:test/components/GameContainer.test.tsx][test/components/GameContainer.test.tsx]] :: Update container tests
+- [[file:test/components/HamburgerMenu.test.tsx][test/components/HamburgerMenu.test.tsx]] :: Update menu tests
+- [[file:test/components/ErrorToast.test.tsx][test/components/ErrorToast.test.tsx]] :: Tests for error toast notifications
+- [[file:test/components/ValidationError.test.tsx][test/components/ValidationError.test.tsx]] :: Tests for validation error displays
+- [[file:test/mobile-responsiveness/mobile-responsiveness-comprehensive.test.ts][test/mobile-responsiveness/mobile-responsiveness-comprehensive.test.ts]] :: Comprehensive mobile responsiveness and touch functionality tests
+
+* Notes
+- Tests are placed in the dedicated =test= directory following the PRD requirements
+- Use =make test= to run all tests after making changes
+- shadcn/ui components will be installed using their CLI tool
+- Theme system should be extensible for future theme additions
+
+* Tasks
+- [X] 1.0 shadcn/ui Integration and Setup [5/5]
+  - [X] 1.1 Install shadcn/ui CLI and initialize configuration
+  - [X] 1.2 Install required shadcn/ui components (Button, Card, Badge, Separator)
+  - [X] 1.3 Create utilities file with cn helper function
+  - [X] 1.4 Update Tailwind configuration for shadcn/ui compatibility
+  - [X] 1.5 Verify shadcn/ui components render correctly in development
+- [X] 2.0 Dark Theme Implementation and Design System [6/6]
+  - [X] 2.1 Define professional dark color palette with bright accent colors
+  - [X] 2.2 Create theme configuration system for future theme switching
+  - [X] 2.3 Update global CSS with dark theme variables and base styles
+  - [X] 2.4 Implement typography hierarchy with modern font stack
+  - [X] 2.5 Ensure WCAG AA contrast compliance across all color combinations
+  - [X] 2.6 Create theme provider component for future extensibility
+- [X] 3.0 Core Game Components Redesign [6/6]
+  - [X] 3.1 Redesign Cell component with modern dark theme styling
+  - [X] 3.2 Update GameBoard component with card-like container styling
+  - [X] 3.3 Modernize GameControls with shadcn/ui Button components
+  - [X] 3.4 Enhance GameContainer layout with proper spacing and hierarchy
+  - [X] 3.5 Update HamburgerMenu with shadcn/ui components and dark theme
+  - [X] 3.6 Ensure all components maintain 44px minimum touch targets
+- [X] 4.0 Layout and Navigation Enhancement [6/6]
+  - [X] 4.1 Create modern header component with consistent branding
+  - [X] 4.2 Implement responsive layout improvements with new design elements
+  - [X] 4.3 Add professional status indicators for game states (win/lose/playing)
+  - [X] 4.4 Implement hover and focus states for all interactive elements
+  - [X] 4.5 Add loading states with professional indicators where appropriate
+  - [X] 4.6 Create consistent error handling UI components
+- [X] 5.0 Testing and Quality Assurance [4/6]
+  - [X] 5.1 Update all component tests to work with new shadcn/ui styling
+  - [X] 5.2 Verify mobile responsiveness and touch functionality across devices
+  - [-] 5.3 Test accessibility compliance and contrast ratios
+  - [X] 5.4 Perform cross-browser testing with new design system
+  - [X] 5.5 Run full test suite and ensure all tests pass
+  - [-] 5.6 Verify performance metrics meet or exceed previous benchmarks

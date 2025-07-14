@@ -1,0 +1,120 @@
+#+STARTUP: overview
+#+TITLE: Minesweeper Game Called "Mineswpr" - Product Requirements Document
+#+STARTUP: showall
+
+* Introduction/Overview
+This PRD outlines the requirements for building a web-based, mobile-friendly
+implementation of the classic Minesweeper puzzle game. The goal is to create an
+entertaining, nostalgic gaming experience that works seamlessly across desktop
+and mobile devices, targeting casual mobile gamers.
+
+The game will provide a modern take on the traditional Minesweeper experience
+with a clean, contemporary visual design while maintaining the core gameplay
+mechanics that made the original popular.
+
+* Goals
+1. Create a fully functional web-based Minesweeper game that works on both
+   desktop and mobile devices
+2. Deliver an intuitive, touch-friendly user interface optimized for mobile gameplay
+3. Implement responsive design that adapts grid size based on screen dimensions
+4. Provide instant playability without complex setup or registration
+   requirements
+5. Maintain high performance and fast loading times across all target devices
+
+* User Stories
+** As a casual mobile gamer, I want to:
+- Quickly start a game of Minesweeper during short breaks
+- Play comfortably on my phone with touch-friendly controls
+- Have the game adapt to my screen size automatically, but only on game start.
+
+* Functional Requirements
+1. Game Grid Generation :: The system must generate a rectangular grid with
+   mines randomly distributed
+2. Responsive Grid Sizing :: The grid size must automatically adjust based on
+   the user's screen dimensions, but only on game start.
+3. Cell Revelation :: Users must be able to reveal cells by left-clicking
+   (desktop) or tapping (mobile)
+4. Mine Flagging :: Users must be able to flag potential mines by
+   right-clicking (desktop) or long-pressing (mobile)
+5. Number Display :: Revealed cells must display the count of adjacent mines
+   (1-8) or remain empty if zero
+6. Cascade Revelation :: When a cell with zero adjacent mines is revealed, all
+   connected empty cells must be automatically revealed. Also, when a mine is
+   correctly flagged, all connected revealed cells that have revealed mines
+   matching the number displayed in them, should automatically revealed
+   recursively.
+7. Game State Detection :: The system must detect and display win conditions
+   (all non-mine cells revealed)
+8. Game State Detection :: The system must detect and display lose conditions
+   (mine cell revealed)
+9. Game Reset :: Users must be able to start a new game via a reset button
+10. Mine Density :: The system must maintain appropriate mine density relative
+    to grid size for balanced gameplay
+11. Visual Feedback :: The system must provide clear visual distinction
+    between revealed cells, flagged cells, and unrevealed cells
+12. Touch Optimization :: All interactions must be optimized for touch input
+    with appropriate touch target sizes
+
+* Non-Goals (Out of Scope)
+1. Timer functionality or time-based scoring
+2. Difficulty level selection or custom grid configuration
+3. Score tracking or leaderboards
+4. Hint system or gameplay assistance
+5. User accounts or authentication
+6. Social features or sharing capabilities
+7. Sound effects or audio feedback
+8. Game state persistence between browser sessions
+9. Multiplayer functionality
+10. Offline/PWA capabilities in the first version
+* Design Considerations
+
+- Modern Aesthetic :: Clean, contemporary visual design that moves away from
+  retro Windows-era styling
+- Mobile-First Approach :: Touch targets must be at least 44px in size for
+  comfortable mobile interaction
+- Color Scheme :: Use modern color palette with good contrast ratios for
+  accessibility
+- Typography :: Clear, readable fonts that work well at small sizes on mobile
+  devices
+- Responsive Layout :: Single-column layout that centers the game grid and
+  controls
+- Loading States :: Minimal loading time with instant game initialization
+- Visual Hierarchy :: Clear distinction between game area and control elements
+
+* Technical Considerations
+- Frontend Stack :: TypeScript, Next.js, Tailwind CSS
+- Backend :: Python with Supabase (if backend and database functionality
+  needed in future iterations)
+- Deployment :: Vercel for hosting and deployment
+- Testing :: Tests should be placed into a =test= directory. Test coverage
+  should be maintained.
+- Build :: Use =asdf install= to install node, if needed. Use =asdf local= to adjust
+  version of needed.
+- Performance :: Client-side game logic for instant responsiveness
+- Browser Compatibility :: Support for modern browsers (Chrome, Firefox, Safari, Edge)
+- Mobile Optimization :: Touch event handling and responsive CSS grid implementation
+- Code Organization :: Modular component structure for maintainability and
+  future feature additions
+- Makefile :: Create a Makefile with all relevant make, build, test, deploy commands.
+
+* Success Metrics
+- Functionality :: 100% of core game mechanics working correctly across
+  target devices
+- Responsiveness :: Game loads and responds to user input within 100ms
+- Mobile Usability :: Successful completion of game sessions on mobile
+  devices without UI issues
+- Cross-Device Compatibility :: Consistent gameplay experience across desktop
+  and mobile platforms
+- User Engagement :: Users can complete full game sessions without technical
+  interruptions
+
+* Open Questions
+1. What should be the exact mine density ratio for optimal difficulty balance? 15%
+2. Should there be any visual animations for cell reveals or game state changes?
+   No
+3. What specific breakpoints should be used for different screen size
+   adaptations? Not sure, use your best judgment.
+4. Should the game prevent accidental moves (e.g., confirmation for potentially
+   game-ending moves)? No
+5. What should be the minimum and maximum grid sizes for different device
+   categories? 8x8 minimum size.

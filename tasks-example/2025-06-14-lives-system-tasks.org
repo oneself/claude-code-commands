@@ -1,0 +1,53 @@
+#+STARTUP: overview
+#+TITLE: Lives System - Task List
+#+STARTUP: showall
+
+* Relevant Files
+- [[file:src/types/game.ts][src/types/game.ts]] :: Add lives-related types to existing game type definitions.
+- [[file:src/lib/gameLogic.ts][src/lib/gameLogic.ts]] :: Update game logic to handle lives system and error detection.
+- [[file:test/gameLogic.test.ts][test/gameLogic.test.ts]] :: Unit tests for updated game logic functions.
+- [[file:src/hooks/useGameState.ts][src/hooks/useGameState.ts]] :: Add lives state management to existing game state hook.
+- [[file:test/hooks/useGameState.test.ts][test/hooks/useGameState.test.ts]] :: Unit tests for lives functionality in game state hook.
+- [[file:src/components/Header.tsx][src/components/Header.tsx]] :: Update header to display lives counter and reorganize layout.
+- [[file:test/components/Header.test.tsx][test/components/Header.test.tsx]] :: Unit tests for updated header component.
+- [[file:src/components/Cell.tsx][src/components/Cell.tsx]] :: Add error state display (explosion/X icons) for incorrect moves.
+- [[file:test/components/Cell.test.tsx][test/components/Cell.test.tsx]] :: Unit tests for cell error states.
+- [[file:src/components/GameOverOverlay.tsx][src/components/GameOverOverlay.tsx]] :: Create new component for game over screen (or update existing).
+- [[file:test/components/GameOverOverlay.test.tsx][test/components/GameOverOverlay.test.tsx]] :: Unit tests for game over overlay component.
+- [[file:src/components/GameContainer.tsx][src/components/GameContainer.tsx]] :: Update container to handle lives system integration.
+- [[file:test/components/GameContainer.test.tsx][test/components/GameContainer.test.tsx]] :: Unit tests for updated game container.
+
+* Notes
+- Unit tests should typically be placed alongside the code files they are testing.
+- Use =npx jest [optional/path/to/test/file]= to run tests. Running without a path executes all tests found by the Jest configuration.
+- Lives system replaces immediate game-ending behavior - ensure all existing game over logic is updated.
+- Error states (explosion/X) should be permanent once triggered and cannot be changed by user.
+
+* Tasks
+- [X] 1.0 Update Type Definitions and Game Logic [4/4]
+  - [X] 1.1 Add lives-related properties to GameState type in =src/types/game.ts=
+  - [X] 1.2 Add cell error state types (explosion, incorrectFlag) to CellState enum
+  - [X] 1.3 Create flag validation function to detect incorrect flags on non-mine cells
+  - [X] 1.4 Update mine revelation logic to return life loss instead of immediate game over
+- [X] 2.0 Implement Lives State Management [5/5]
+  - [X] 2.1 Add lives count state (default 3) to useGameState hook
+  - [X] 2.2 Add loseLife action that decrements lives and handles cell error states
+  - [X] 2.3 Update revealCell action to call loseLife when mine is revealed
+  - [X] 2.4 Add toggleFlag validation to call loseLife when flagging non-mine cells
+  - [X] 2.5 Update game over detection to trigger when lives reach 0
+- [X] 3.0 Update Header Component with Lives Counter [3/3]
+  - [X] 3.1 Remove mine count display from header (replaced by lives counter)
+  - [X] 3.2 Add lives counter component with heart icon and number display
+  - [X] 3.3 Reorganize header layout: [NEW GAME] [lives counter] [Mineswpr] [Menu]
+- [X] 4.0 Add Error State Display to Cells [4/4]
+  - [X] 4.1 Add explosion icon/emoji rendering for cells with revealed mines
+  - [X] 4.2 Add red X icon/emoji rendering for incorrectly flagged cells
+  - [X] 4.3 Style error icons with red color to match design requirements
+  - [X] 4.4 Ensure error state cells cannot be interacted with (permanent state)
+- [X] 5.0 Create Game Over Overlay and Integration [4/4]
+  - [X] 5.1 Create GameOverOverlay component with "Game Over" message
+  - [X] 5.2 Add "New Game" button that resets game with 3 lives
+  - [X] 5.3 Position overlay to cover entire game board and prevent interaction
+  - [X] 5.4 Integrate overlay display when lives reach 0 in GameContainer
+- [X] 6.0 Testing and Quality Assurance [1/1]
+  - [X] 6.1 Ensure there is unit tests coverage for new code.

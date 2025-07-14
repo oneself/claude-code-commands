@@ -1,0 +1,119 @@
+#+STARTUP: overview
+#+TITLE: Lives System - Product Requirements Document
+#+STARTUP: showall
+
+* Introduction/Overview
+The lives system adds a forgiving gameplay mechanic to the Minesweeper game,
+allowing players to make mistakes without immediately ending the game. Instead
+of the traditional "one mistake and you lose" approach, players start with 3
+lives and lose one life each time they make an error. This makes the game more
+accessible to new players while maintaining the challenge for experienced
+players.
+
+The goal is to reduce player frustration from accidental clicks or learning
+mistakes, encouraging longer play sessions and a more enjoyable experience.
+
+* Goals
+1. Reduce player frustration by allowing multiple mistakes before game over
+2. Make the game more accessible to beginners learning Minesweeper mechanics
+3. Encourage longer play sessions by providing second chances
+4. Maintain game challenge while adding forgiveness for errors
+5. Provide clear visual feedback when mistakes occur
+
+* User Stories
+** As a new Minesweeper player
+I want to be able to make mistakes without immediately losing so that I can
+learn the game mechanics without constant restarts.
+** As a casual player
+I want to see how many lives I have remaining so that I can understand my
+current game state and plan my moves accordingly.
+** As any player
+I want clear visual feedback when I make a mistake so that I understand what
+went wrong and can learn from it.
+** As a player who runs out of lives
+I want a clear game over message with an easy way to start over so that I can
+quickly begin a new game without frustration.
+
+* Functional Requirements
+1. The game must display a lives counter in the header showing the current
+   number of lives remaining
+2. Players must start each new game with exactly 3 lives
+3. The game must detect when a player reveals a cell containing a mine and
+   reduce lives by 1
+4. The game must detect when a player flags a cell that does not contain a mine
+   and reduce lives by 1
+5. When a mine is revealed, the cell must display a red explosion icon/emoji
+   instead of the mine icon
+6. When a non-mine cell is incorrectly flagged, the cell must display a red X
+   icon/emoji
+7. The game must continue after a life is lost (board state remains unchanged)
+8. When lives reach 0, the game must end and display a game over overlay
+9. The game over overlay must include a clear "Game Over" message
+10. The game over overlay must include a "New Game" button that starts a fresh
+    game with 3 lives
+11. The game over overlay must prevent further interaction with the game board.
+12. Life loss must replace the current immediate game-ending behavior when
+    hitting mines
+
+* Non-Goals (Out of Scope)
+1. Configurable starting number of lives (fixed at 3 for now)
+2. Different lives counts for different difficulty levels
+3. Timer functionality integration
+4. Mine count display
+5. Game statistics tracking
+6. Lives persistence across browser sessions
+7. Settings or options for lives system
+8. Lives recovery or bonus life mechanics
+9. Difficulty selection in new game flow
+
+* Design Considerations
+** Header Layout
+- Lives counter should be positioned in the header alongside the game name and
+  "NEW GAME" button
+- Lives display should be clearly visible and easily understood
+- Consider using heart icons or similar to represent lives visually
+- Lives counter should replace the mine icon currently visible in the header.
+- Header layout from left to right should be: `[NEW GAME] [lives counter] [Mineswpr] [Menu]`
+** Error Visual Feedback
+- Red explosion icon/emoji for revealed mines (distinct from normal mine icon)
+- Red X icon/emoji for incorrectly flagged cells
+- Visual feedback should be immediately apparent to the player
+** Game Over Overlay
+- Should cover the entire game board to prevent interaction
+- Clear, prominent "Game Over" text
+- Easily accessible "New Game" button
+- Consistent with existing game styling and theme
+
+* Technical Considerations
+** State Management
+- Add lives count to existing game state management (=useGameState= hook)
+- Update game logic to handle life loss instead of immediate game over
+- Modify win/lose detection logic to account for lives system
+** Game Logic Integration
+- Update mine revelation logic in =gameLogic.ts= to check lives before ending game
+- Add flag validation logic to detect incorrect flags on non-mine cells
+- Ensure proper game state transitions when lives are lost vs. game over
+** Component Updates
+- Modify Header component to display lives counter
+- Update Cell component to show error icons (explosion/X) when appropriate
+- Create or modify game over overlay component
+- Update GameBoard or GameContainer to handle new game states
+
+* Success Metrics
+1. Player session length increases (more moves per game on average)
+2. Reduced immediate game abandonment after first mistake
+3. Increased engagement from new/casual players
+4. Clear user understanding of lives mechanic (fewer support questions)
+5. Maintained game challenge (experienced players still find it engaging)
+
+* Open Questions
+1. Should there be any visual animation when a life is lost (beyond the error
+   icons)? No
+2. Should the lives counter show hearts, numbers, or both? 1 Heart icon with a
+   number next to it.
+3. Should there be any audio feedback when lives are lost? No
+4. How should the error icons (explosion/X) be styled to match the current
+   theme? Use simple character or emoji for now.
+5. Should incorrectly flagged cells automatically remove the flag, or keep it
+   with the X overlay? Keep the X overlay. The user cannot remove them. Similarly
+   with an exploded mine, they cannot be changed.

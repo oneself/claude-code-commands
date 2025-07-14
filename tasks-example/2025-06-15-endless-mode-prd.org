@@ -1,0 +1,152 @@
+#+STARTUP: overview
+#+TITLE: Endless Mineswpr Mode - Product Requirements Document
+#+STARTUP: showall
+
+* Introduction/Overview
+This PRD outlines the implementation of an endless mode for the Mineswpr game,
+replacing the current finite grid system with an infinitely extending
+downward-scrolling board. The endless mode provides continuous gameplay where
+the board generates new rows dynamically as the player progresses, with
+increasing difficulty through higher mine density over time.
+
+The goal is to create an engaging, infinite gameplay experience that challenges
+players with progressively difficult content while maintaining optimal
+performance through intelligent memory management and smooth viewport
+transitions.
+
+* Goals
+1. Replace the current finite game mode with an infinite downward-extending board
+2. Implement dynamic difficulty scaling through progressive mine density increases
+3. Provide smooth, automatic viewport scrolling based on player progress
+4. Maintain optimal memory usage through intelligent row generation and cleanup
+5. Create a scoring system based on correctly revealed mines to track progress
+6. Ensure consistent gameplay experience across desktop and mobile platforms
+7. Integrate seamlessly with the existing lives system and visual design
+
+* User Stories
+** As a Mineswpr player, I want to:
+- Play an endless game that continuously challenges me with new content
+- See my progress visually as solved rows become muted and new rows appear
+- Experience gradually increasing difficulty as I progress deeper
+- Have the game automatically scroll to keep the active play area visible
+- Track my score based on mines I've successfully revealed
+- Continue playing until I run out of lives, without arbitrary game endings
+
+** As a mobile player, I want to:
+- Scroll manually to explore the board while having automatic scrolling for
+  optimal gameplay
+- Experience the same smooth gameplay mechanics as desktop users
+- Have responsive controls that work well with the endless scrolling interface
+
+* Functional Requirements
+- Infinite Board Generation :: The system must generate game board rows
+  dynamically, maintaining at least 2 screen heights of unsolved rows below the
+  "first unsolved row"
+- Progressive Mine Density :: Mine density must start at 5% and increase by 1%
+  every 100 completed rows, with both values easily configurable in code
+- Last Solved Row Detection :: The system must continuously track and update the
+  "last solved row" (highest row where all cells are revealed or flagged and
+  where all rows above are also completely solved)
+- First Unsolved Row Detection :: The system must track the "first unsolved row"
+  (lowest row where all cells are unsolved) to determine generation boundaries
+- Automatic Viewport Scrolling :: When the last solved row extends below 2/3 of
+  screen height, the view must gradually scroll up to show only 2 solved rows at
+  the top
+- Manual Scrolling Limits :: Users must be able to scroll manually up to 2
+  screen heights above the last solved row, but cannot scroll below ungenerated
+  rows
+- Visual Solved Row Indication :: All rows at or above the last solved row must
+  have muted colors to indicate completion
+- Score Tracking :: The system must maintain a score counter showing the number
+  of mines correctly revealed (flagged mines)
+- Score Display :: Score display must use a flag icon with number, positioned
+  next to the lives counter in the header
+- Memory Management :: The system must deallocate rows more than 2 screen
+  heights above the last solved row to prevent infinite memory consumption
+- Lives System Integration :: The endless mode must use the existing 3-lives
+  system, ending the game when all lives are lost
+- Responsive Grid Width :: The board width must remain responsive and adapt to
+  screen size, consistent with current game behavior
+- Initial Board Size :: The game must start with approximately double the screen
+  height in generated rows
+- Configurable Scroll Speed :: The automatic scrolling speed must be easily
+  configurable in code
+- Cross-Platform Consistency :: All functionality must work identically on
+  desktop and mobile devices
+
+* Non-Goals (Out of Scope)
+1. Game state persistence between browser sessions
+2. Multiple difficulty level selections or custom starting parameters
+3. Leaderboards or score sharing functionality
+4. Undo or rewind capabilities for endless mode
+5. Time-based scoring or timer integration
+6. Animated transitions for row generation or cleanup
+7. Sound effects or audio feedback for progression
+8. Achievement system or milestone rewards
+9. Pause/resume functionality
+10. Export or save game state capabilities
+
+* Design Considerations
+- Memory Efficiency :: Implement efficient row cleanup to prevent memory leaks
+  during extended gameplay sessions
+- Smooth Scrolling :: Gradual viewport transitions should feel natural and not
+  disrupt gameplay flow
+- Visual Hierarchy :: Solved rows should be clearly distinguished from active
+  play areas through color muting
+- Performance Optimization :: Row generation and cleanup should not cause
+  noticeable lag or frame drops
+- Mobile Touch :: Maintain existing touch-friendly cell sizes (44px+) and
+  interaction patterns
+- Responsive Layout :: Preserve existing responsive breakpoints and grid
+  adaptation logic
+- Theme Integration :: Solved row muting should work with the existing dark
+  theme system
+
+* Technical Considerations
+- State Management :: Extend existing useGameState hook to handle infinite
+  board state and dynamic row management
+- Game Logic :: Modify =gameLogic.ts= to support dynamic grid expansion and
+  cleanup
+- Viewport Management :: Implement smooth scrolling logic with configurable
+  parameters
+- Memory Optimization :: Add row lifecycle management to prevent unbounded
+  memory growth
+- Performance Monitoring :: Consider implementing performance metrics for row
+  generation and cleanup operations
+- Configuration System :: Create easily accessible configuration constants for
+  mine density, scroll speed, and buffer sizes
+- Component Updates :: Update GameBoard, GameContainer, and related components
+  to handle infinite scrolling
+- Testing Strategy :: Design test cases for memory management, scrolling
+  behavior, and progressive difficulty
+
+* Success Metrics
+- Memory Usage :: Game memory consumption should remain stable during extended
+  play sessions (no memory leaks)
+- Performance :: Row generation and cleanup operations should complete within
+  16ms to maintain 60fps
+- Gameplay Flow :: Players should experience smooth transitions with no jarring
+  viewport jumps
+- Progressive Difficulty :: Mine density should increase predictably every 100
+  rows as configured
+- Cross-Platform Consistency :: Identical behavior and performance on desktop
+  and mobile devices
+- User Engagement :: Longer average play sessions compared to finite mode
+- Technical Stability :: No crashes or performance degradation during
+  extended gameplay
+
+* Open Questions
+1. Should there be any visual indication when mine density increases (e.g.,
+   subtle notification or color change)? Not currently.
+2. What should happen if a player tries to scroll up beyond the buffer limit -
+   should it bounce back or simply stop? Bounce would be nice.
+3. Should the score counter animate when incremented, or update instantly? It
+   should animated. Let's add animation to lives counter update as well.
+4. Are there any specific performance benchmarks we should target for row
+   generation speed? Use your best judgement.
+5. Should we implement any visual effects for the transition between solved and
+   unsolved areas?
+6. How should we handle very wide screens where 2 screen heights might be an
+   excessive buffer?
+7. Should there be a maximum mine density cap (e.g., never exceed 25%) for
+   playability?

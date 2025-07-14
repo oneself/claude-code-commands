@@ -1,0 +1,122 @@
+#+STARTUP: overview
+#+TITLE: Enhanced Cascading Revelation - Product Requirements Document
+#+STARTUP: showall
+
+* Introduction/Overview
+This PRD outlines improvements to the Mineswpr game's cascading revelation
+functionality to reduce the number of clicks required, to make gameplay more
+efficient, and improve game flow. The enhancement involves swapping the
+left/right click behavior and implementing aggressive cascading revelation that
+triggers when mines are correctly flagged.
+
+The goal is to streamline the user experience by making flagging the primary
+action (left-click) and implementing intelligent auto-revelation when the game
+logic can safely determine additional cells should be revealed.
+
+* Goals
+1. Reduce the total number of clicks required to complete a Minesweeper game
+2. Make mine flagging the primary interaction by swapping left/right click behavior
+3. Implement aggressive cascading revelation that triggers on correct mine flags
+4. Maintain game safety by preventing accidental mine reveals
+5. Preserve existing win/lose conditions and game balance
+6. Ensure mobile touch interactions follow the same behavioral changes
+
+* User Stories
+** As a Minesweeper player, I want to:
+- Flag potential mines with a simple left-click or tap so I can quickly mark
+  dangerous cells
+- Have the game automatically reveal safe cells when I've correctly flagged all
+  adjacent mines
+- Experience faster gameplay with fewer required clicks to complete a game
+- Trust that the game won't accidentally reveal mines during auto-cascade
+  sequences
+** As a mobile player, I want to:
+- Flag mines with a simple tap and reveal cells with long-press for consistent
+  behavior
+- Benefit from the same cascading improvements on touch devices
+
+* Functional Requirements
+** Core Interaction Changes
+- Left-Click Flagging :: Left-click (or single tap on mobile) must
+  flag/unflag a cell instead of revealing it
+- Right-Click Revealing :: Right-click (or long-press on mobile) must reveal
+  a cell instead of flagging it
+- Mobile Touch Consistency :: Mobile interactions must follow the same
+  behavioral swap as desktop
+** Enhanced Cascading Logic
+- Flag-Triggered Cascading :: When a mine is correctly flagged, the system
+  must immediately check all adjacent numbered cells to see if they now have
+  all their mines flagged
+- Numbered Cell Auto-Reveal :: If a numbered cell has all its adjacent mines
+  correctly flagged, the system must automatically reveal it.
+- Recursive Cascading :: Auto-revealed cells must trigger further cascading
+  checks, continuing until no more cells can be safely revealed
+- Mine Safety Protection :: The cascading system must never automatically
+  reveal or flag a cell containing a mine
+- Incorrect Flag Prevention :: Cascading must not trigger if any adjacent
+  flagged cells are not actually mines
+** Game State Preservation
+- Win Condition Maintenance :: Existing win condition logic (all non-mine
+  cells revealed) must remain unchanged
+- Lose Condition Maintenance :: Existing lose condition logic (mine cell
+  revealed) must remain unchanged
+- Game Reset Behavior :: All new behaviors must work correctly with the
+  existing game reset functionality
+
+* Non-Goals (Out of Scope)
+1. User interface changes or visual feedback for the new control scheme
+2. Settings or options to toggle between old and new behavior
+3. Onboarding or tutorial elements explaining the new controls
+4. Changes to mine density, grid sizing, or other game balance parameters
+5. Performance optimizations beyond what's required for the new cascading logic
+6. Changes to win/lose condition calculations or scoring mechanisms
+
+* Design Considerations
+- Behavioral Consistency :: All platforms (desktop, mobile) must use the same
+  interaction paradigm
+- Safety First :: The cascading logic must be conservative and never risk
+  revealing mines
+- Performance :: Recursive cascading must be efficient and not cause
+  noticeable delays
+- State Integrity :: Game state must remain consistent throughout cascading
+  operations
+
+* Technical Considerations
+- Event Handler Updates :: Left/right click and touch event handlers need to
+  be swapped in Cell component
+- Cascading Algorithm :: New algorithm must efficiently check numbered cells
+  and trigger recursive reveals
+- Mine Detection :: Logic must accurately identify when flagged cells are
+  actual mines vs. incorrect flags
+- State Management :: useGameState hook needs updates to handle new cascading
+  triggers
+- Testing :: Comprehensive tests required for new interaction patterns and
+  cascading edge cases
+- Cross-Browser :: New right-click behavior must work consistently across
+  browsers and devices
+
+* Success Metrics
+- Click Reduction :: Average clicks to complete a game should decrease by at
+  least 20%
+- Functionality :: 100% of cascading scenarios work correctly without
+  revealing mines
+- Cross-Platform :: New interactions work consistently on desktop and mobile
+  devices
+- Safety :: Zero instances of accidental mine reveals during automated
+  cascading
+- Performance :: Cascading operations complete within 50ms for typical grid
+  sizes
+
+* Open Questions
+1. Should there be any visual indication when cascading is occurring, or should
+   it be instant? It should be instant for now, but we will add a visual
+   indication in the future.
+2. How should the system handle rapid successive flagging that could trigger
+   multiple cascades? The system should prevent flagging until each cascade is
+   complete.
+3. Should cascading be limited to a maximum depth to prevent potential infinite
+   loops? No.
+4. Are there any specific browser compatibility concerns with the right-click
+   behavior changes? No.
+5. Should the system provide any feedback when incorrect flags prevent cascading
+   from occurring? No.

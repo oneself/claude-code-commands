@@ -1,0 +1,61 @@
+#+STARTUP: overview
+#+TITLE: Enhanced Cascading Revelation - Task List
+#+STARTUP: showall
+
+* Relevant Files
+- [[file:src/components/Cell.tsx][src/components/Cell.tsx]] :: Main cell component that needs click/touch behavior swapped
+- [[file:test/components/Cell.test.tsx][test/components/Cell.test.tsx]] :: Unit tests for Cell component interactions (updated for swapped behavior)
+- [[file:src/hooks/useGameState.ts][src/hooks/useGameState.ts]] :: Game state management hook requiring cascading logic updates
+- [[file:test/hooks/useGameState.test.ts][test/hooks/useGameState.test.ts]] :: Unit tests for game state management and cascading
+- [[file:src/lib/gameLogic.ts][src/lib/gameLogic.ts]] :: Core game logic functions for cascading and mine detection
+- [[file:test/gameLogic.test.ts][test/gameLogic.test.ts]] :: Unit tests for game logic functions
+- [[file:src/hooks/useTouchHandler.ts][src/hooks/useTouchHandler.ts]] :: Touch event handling hook that needs behavior swap
+- [[file:test/hooks/useTouchHandler.test.ts][test/hooks/useTouchHandler.test.ts]] :: Unit tests for touch interactions
+
+* Notes
+- All tests should be placed in the =test= directory following project
+  conventions
+- Use =make test= to run all tests after making changes
+- Focus on comprehensive edge case testing for the new cascading logic
+- Ensure cross-browser compatibility for right-click behavior changes
+
+* Tasks
+- [X] 1.0 Core Interaction Behavior Swap [5/5]
+  - [X] 1.1 Update Cell component left-click handler to flag/unflag cells instead of revealing
+  - [X] 1.2 Update Cell component right-click handler to reveal cells instead of flagging
+  - [X] 1.3 Add context menu prevention for right-click to ensure clean reveal behavior
+  - [X] 1.4 Update click event logic to handle flagged cell states correctly
+  - [X] 1.5 Ensure proper event propagation and prevent conflicts between left/right clicks
+- [X] 2.0 Enhanced Cascading Logic Implementation [8/8]
+  - [X] 2.0.1 Examine current cascading revealing behavior used when cells are
+        revealed and determine if it can be generalized and reused here.
+  - [X] 2.1 Create function to detect when a mine is correctly flagged (vs incorrectly flagged)
+  - [X] 2.2 Implement algorithm to find all numbered cells adjacent to a flagged mine
+  - [X] 2.3 Create logic to check if numbered cell has all adjacent mines correctly flagged
+  - [X] 2.4 Implement auto-reveal functionality for cells adjacent to satisfied numbered cells
+  - [X] 2.5 Build recursive cascading system that continues until no more reveals possible
+  - [X] 2.6 Add safety checks to prevent accidental mine reveals during cascading
+  - [X] 2.7 Implement cascade prevention when incorrect flags are detected
+- [X] 3.0 Mobile Touch Interaction Updates [5/5]
+  - [X] 3.1 Update useTouchHandler hook to swap tap and long-press behaviors
+  - [X] 3.2 Ensure single tap flags cells instead of revealing them
+  - [X] 3.3 Ensure long-press reveals cells instead of flagging them
+  - [X] 3.4 Test touch interactions across different mobile devices and browsers
+  - [X] 3.5 Verify touch target sizes remain appropriate for new interaction patterns
+- [X] 4.0 Game State Management Integration [6/6]
+  - [X] 4.1 Update useGameState hook to handle new flagging behavior in state updates
+  - [X] 4.2 Integrate flag-triggered cascading into game state management flow
+  - [X] 4.3 Add cascade completion tracking to prevent rapid successive flag operations
+  - [X] 4.4 Ensure win/lose condition detection works correctly with new cascading logic
+  - [X] 4.5 Update game reset functionality to work with new interaction patterns
+  - [X] 4.6 Add state validation to ensure consistency during cascading operations
+- [X] 5.0 Testing and Quality Assurance [9/9]
+  - [X] 5.1 Write unit tests for swapped click behavior in Cell component
+  - [X] 5.2 Create comprehensive tests for new cascading logic edge cases
+  - [X] 5.3 Test mobile touch interaction changes across devices
+  - [X] 5.4 Write integration tests for flag-triggered cascading scenarios
+  - [X] 5.5 Test game state consistency during complex cascading sequences
+  - [X] 5.6 Verify cross-browser compatibility for right-click behavior
+  - [X] 5.7 Performance test cascading operations on large grid sizes
+  - [X] 5.8 Run full test suite and ensure all existing functionality remains intact
+  - [X] 5.9 Check test code coverage and add missing tests.

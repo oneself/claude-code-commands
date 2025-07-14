@@ -1,0 +1,100 @@
+#+STARTUP: overview
+#+TITLE: Safe Starting Cells for All Levels - Product Requirements Document
+#+STARTUP: showall
+
+* Introduction/Overview
+
+The minesweeper game currently provides a guaranteed safe starting cell at
+position (0,0) with visual indication and a 3x3 mine-free zone around it. This
+feature should be extended to provide the same safe starting experience when
+new levels are generated in endless mode. Each level should have its own safe
+starting cell at the upper-left corner with identical visual styling and
+interaction behavior.
+
+The goal is to reduce player frustration and provide consistent, predictable
+safe starting points throughout the endless mode experience, making level
+transitions more user-friendly and maintaining the accessibility benefits of
+guaranteed safe cells.
+
+* Goals
+
+1. Provide consistent safe starting experience across all levels in endless mode
+2. Maintain visual consistency with existing safe cell indicator styling
+3. Ensure all interactions with safe cells result in automatic revelation
+4. Preserve existing 3x3 mine-free zone logic for each level's safe area
+5. Integrate seamlessly with current level generation and boundary mechanics
+
+* User Stories
+- As a player progressing through endless mode, I want to see a visually
+  distinct safe starting cell at the beginning of each new level, so that I
+  know where I can safely begin exploring without risk.
+- As a player who has completed a level, I want the next level's safe cell to
+  be clearly marked and automatically reveal when I interact with it, so that
+  I can continue playing without hesitation or accidental flagging.
+- As a mobile player using touch controls, I want any touch interaction (tap or
+  long-press) on a safe cell to reveal it immediately, so that I don't
+  accidentally flag the guaranteed safe starting position.
+- As a player familiar with the game mechanics, I want each level's safe zone
+  to follow the same 3x3 mine-exclusion rules, so that the safe starting
+  experience is predictable and consistent.
+* Functional Requirements
+1. The system must generate a safe starting cell at the upper-left corner of
+   every level (not just level 1).
+2. The system must exclude mines from a 3x3 area around each level's safe
+   starting cell, following the same logic as the initial (0,0) position.
+3. The system must apply the same visual styling to safe starting cells in all
+   levels as currently used for the initial safe cell.
+4. The system must automatically reveal safe starting cells when clicked,
+   tapped, right-clicked, or long-pressed (any interaction should result in
+   revelation).
+5. The system must prevent flagging of safe starting cells - all interaction
+   modes should bypass flagging logic and directly reveal the cell.
+6. The system must maintain safe cell indicators until the cell is revealed by
+   player interaction.
+7. The system must integrate with existing level boundary mechanics without
+   affecting reveal propagation rules between levels.
+8. The system must ensure safe starting cells are positioned at the first row
+   of each level (relative to level boundaries, not absolute board position).
+
+* Non-Goals (Out of Scope)
+- Automatic scrolling to new safe cells when levels become accessible
+- Notifications or animations highlighting new safe cells
+- Alternative safe cell positions (always upper-left corner)
+- Different visual styling for safe cells in different levels
+- Safe cell indicators in classic/finite game modes
+- Multiple safe cells per level
+
+* Design Considerations
+The feature should reuse existing visual components and styling for safe cell
+indicators. The current safe cell styling includes distinct visual markers that
+differentiate it from regular unrevealed cells. This same styling should be
+applied consistently across all levels.
+
+Integration with the existing CSS Grid layout system should maintain proper
+cell positioning and responsive behavior. The visual indicator should work
+seamlessly with the current dark theme and mobile touch targets.
+
+* Technical Considerations
+- Must integrate with existing mine generation logic in =endlessConfig.ts= and
+  =gameLogic.ts=
+- Should leverage current safe cell detection and styling mechanisms
+- Must work with level boundary detection and level transition components
+- Should maintain performance standards for endless mode memory management
+- Must coordinate with useGameState hook for proper state management
+- Should preserve existing touch event handling for mobile optimization
+
+* Success Metrics
+- Safe starting cells are visually distinct and functionally correct in 100%
+  of generated levels
+- Zero instances of accidental flagging of safe starting cells
+- Consistent user experience across level transitions
+- No performance degradation in endless mode with multiple safe cells
+- All safe cell interactions result in immediate revelation as expected
+
+* Open Questions
+- Should safe cell visual indicators have any fade-out or transition effects
+  when revealed? Follow existing styling exactly.
+- Are there any specific accessibility considerations for multiple safe cell
+  indicators in the viewport? No
+- Should the safe cell logic account for any future changes to level size
+  configuration? No

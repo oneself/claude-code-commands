@@ -1,0 +1,55 @@
+#+STARTUP: overview
+#+TITLE: Level Transitions - Task List
+#+STARTUP: showall
+
+* Relevant Files
+- [[file:../tasks/2025-06-21-level-transitions-prd.org][../tasks/2025-06-21-level-transitions-prd.org]] :: Level Transitions - Product Requirements Document
+- [[file:../src/lib/endlessConfig.ts][../src/lib/endlessConfig.ts]] :: Configuration for endless mode including level transition settings
+- [[file:../src/components/GameBoard.tsx][../src/components/GameBoard.tsx]] :: Main game board component that renders cells and level transitions
+- [[file:../src/components/LevelTransition.tsx][../src/components/LevelTransition.tsx]] :: New component for rendering level transition elements
+- [[file:../src/lib/gameLogic.ts][../src/lib/gameLogic.ts]] :: Game logic functions including reveal mechanics and level boundaries
+- [[file:../src/hooks/useGameState.ts][../src/hooks/useGameState.ts]] :: Game state management hook with level completion detection
+- [[file:../test/levelTransitions.test.ts][../test/levelTransitions.test.ts]] :: Unit tests for level transition functionality
+- [[file:../test/gameLogic.test.ts][../test/gameLogic.test.ts]] :: Extended tests for level boundary reveal logic
+
+* Notes
+- Level transitions appear every 100 rows by default (configurable)
+- Each transition is 2 rows tall (88px) and spans full board width
+- Reveal mechanics must stop at level transitions (treat as board edges)
+- Performance optimization: only render visible transitions
+- Use existing game styling and grid layout system
+
+* Tasks
+- [X] 1.0 Configure Level Transition System [4/4]
+  - [X] 1.1 Add LEVEL_CONFIG constant to endlessConfig.ts with rowsPerLevel, transitionHeight, and startingLevel
+  - [X] 1.2 Create utility function to calculate level number from row index
+  - [X] 1.3 Create utility function to determine if a row index should have a level transition
+  - [X] 1.4 Add configuration for maximum number of levels (99 max as per PRD)
+- [X] 2.0 Create Level Transition Component [5/5]
+  - [X] 2.1 Create LevelTransition.tsx component with proper TypeScript interfaces
+  - [X] 2.2 Implement level number display with "Level X" text formatting
+  - [X] 2.3 Style component to match existing game theme (2 rows tall, full width)
+  - [X] 2.4 Add CSS Grid integration for seamless board layout
+  - [X] 2.5 Implement visibility-based rendering optimization
+- [X] 3.0 Integrate Level Transitions with Game Board Rendering [4/4]
+  - [X] 3.1 Modify GameBoard.tsx to include level transitions in render logic
+  - [X] 3.2 Update visibleRowRange calculations to account for level transition positions
+  - [X] 3.3 Ensure level transitions render between appropriate row groups
+  - [X] 3.4 Test scrolling behavior with level transitions in viewport
+- [X] 4.0 Implement Level Boundary Logic for Cell Reveals [5/5]
+  - [X] 4.1 Extend gameLogic.ts reveal functions to respect level boundaries
+  - [X] 4.2 Modify cascading reveal logic to stop at level transitions
+  - [X] 4.3 Update shouldMuteRow logic to work with level boundaries
+  - [X] 4.4 Ensure flagging works within levels but doesn't cross boundaries
+  - [X] 4.5 Test reveal mechanics at level transition edges
+- [X] 5.0 Add Level Completion Detection and State Management [6/6]
+  - [X] 5.1 Add level completion detection logic to useGameState.ts
+  - [X] 5.2 Track which levels are completed in game state
+  - [X] 5.3 Implement logic to prevent interaction with incomplete level's next level
+  - [X] 5.4 Add function to check if all cells in a level are revealed or flagged
+  - [X] 5.5 Update game state when levels are completed
+  - [X] 5.6 Write comprehensive tests for level completion scenarios
+- [X] 6.0 Fix Test Suite for Level Transitions [3/3]
+  - [X] 6.1 Fix viewport scroll tests to account for level transition heights
+  - [X] 6.2 Update scroll position calculations in useViewportScroll tests
+  - [X] 6.3 Fix cross-platform consistency tests for scroll bounds

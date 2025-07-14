@@ -1,0 +1,91 @@
+#+STARTUP: overview
+#+TITLE: Mineswpr - Project Overview
+#+STARTUP: showall
+
+* Goal
+Build a modern, mobile-first Minesweeper game with contemporary design and
+optimized user experience. The project delivers a fully functional,
+touch-friendly web-based implementation that works seamlessly across desktop and
+mobile devices with professional visual design and intelligent gameplay
+enhancements.
+
+* Technical Stack
+- Next.js + TypeScript + Tailwind CSS
+- shadcn/ui component library for modern UI components
+- Custom hooks for state management and responsive design
+- Comprehensive test suite with Jest + React Testing Library
+- Cross-browser compatibility (Chrome, Firefox, Safari, Edge)
+- Mobile-optimized touch event handling
+- Professional dark theme with WCAG AA compliance
+- Responsive CSS grid implementation
+
+* Phase 1: Core Minesweeper Implementation
+- [[file:2025-06-08-minesweeper-v1-prd.org][2025-06-08-minesweeper-v1-prd.org]]
+- Status: ✅ 100% Complete - All 40 tasks completed across 5 major areas
+- Responsive grid generation - Adapts to screen size at game start
+- Core game mechanics - Mine placement (15% density), adjacent counting, cascade reveals
+- Touch-optimized controls - Interactive cell management with 44px+ touch targets
+- Modern UI foundation - Clean design with Tailwind CSS
+- Complete game flow - Win/lose detection, reset functionality
+
+* Phase 2: Visual Upgrade with shadcn/ui Integration
+- [[file:2025-06-11-visual-upgrade-prd.org][2025-06-11-visual-upgrade-prd.org]]
+- Status: ✅ 100% Complete - All 25 tasks completed across 3 major areas
+- shadcn/ui component library integration - Modern Button, Card, Badge, Separator components
+- Professional dark theme implementation - WCAG AA compliant color palette
+- Complete UI component redesign - Modern styling for all game elements
+- Enhanced layout and navigation - Improved header, status indicators, responsive design
+- Extensible theme system foundation - Built for future theme additions
+
+* Phase 3: Enhanced Cascading Revelation
+- [[file:2025-06-13-enhanced-cascading-revelation-prd.org][2025-06-13-enhanced-cascading-revelation-prd.org]]
+- Status: ✅ 100% Complete - All 33 tasks completed
+- Swapped interaction behavior - Left-click flags, right-click reveals
+- Intelligent cascading logic - Automatic reveals when mines correctly flagged
+- Mobile touch optimization - Tap flags, long-press reveals
+- Recursive revelation system - Efficient multi-level cascading
+- Click reduction optimization - 20%+ fewer clicks required to complete games
+
+* Phase 4: Lives System Implementation
+- [[file:2025-06-14-lives-system-prd.org][2025-06-14-lives-system-prd.org]]
+- Status: ✅ 100% Complete - All 21 tasks completed across 6 major areas
+- Multiple lives system - Start with 3 lives, lose one per mistake instead of immediate game over
+- Error visual feedback - Red explosion for revealed mines, red X for incorrect flags
+- Lives counter display - Header integration with heart icon and number
+- Game over overlay - Clear end state with restart option when all lives lost
+- Accessibility improvements - Makes game more approachable for new players
+
+* Phase 5: Endless Mode Implementation
+- [[file:2025-06-15-endless-mode-prd.org][2025-06-15-endless-mode-prd.org]]
+- Status: ✅ 100% Complete - All 52 tasks completed across 6 major areas
+- Infinite board generation - Dynamic row creation with intelligent memory management
+- Progressive difficulty scaling - Mine density increases from 10% to 25% every 50 rows
+- Automatic viewport scrolling - Smooth scrolling based on player progress
+- Score system integration - Points awarded for correctly revealed mines
+- Performance optimization - Efficient row cleanup and memory usage management
+
+* Phase 6: Level Transitions and Progression System
+- [[file:2025-06-21-level-transitions-prd.org][2025-06-21-level-transitions-prd.org]]
+- Status: ✅ 100% Complete - All 33 tasks completed across 6 major areas
+- Visual level transitions - Subtle boundary lines every 30 rows (optimized for faster testing)
+- Level indicator in header - Shows current level next to lives and score counters
+- Level boundary mechanics - Cell reveals stop at level edges, requiring completion before progression  
+- Level completion detection - Real-time tracking of completed levels and accessibility rules
+- Progressive level access - Players must complete levels sequentially to unlock new ones
+- Comprehensive test coverage - 47 new tests covering all level transition functionality
+
+* Recent Enhancements (Latest Updates)
+- Level size optimization - Reduced from 50 to 30 rows per level for quicker manual testing
+- UI refinements - Moved level indicator from game board to header menu with "L" icon
+- Visual improvements - Added subtle white boundary lines between levels with hover isolation
+- Adjacent mine counting fix - Corrected mine calculations across level boundaries for accurate gameplay
+- Color consistency - Updated flag icon in header to match orange color of flagged cells
+
+* Phase 7: Safe Starting Cells for All Levels
+- [[file:2025-06-28-safe-starting-cells-prd.org][2025-06-28-safe-starting-cells-prd.org]]
+- Status: ✅ 100% Complete - All 24 tasks completed across 5 major areas
+- Multi-level safe zones - Extended safe starting cell logic from just (0,0) to all level starting positions
+- Enhanced mine generation - Updated mine placement algorithms to exclude 3x3 safe zones around each level's starting cell
+- Universal safe cell detection - Extended =isSafeStartingCell= function to work across all levels in endless mode
+- Consistent interaction behavior - Safe cells auto-reveal on any interaction (tap, click, right-click, long-press) 
+- Comprehensive testing - Complete test coverage for safe cell detection, mine exclusion, styling, and interaction behavior
