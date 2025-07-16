@@ -46,7 +46,7 @@ models tailored for structured development workflows.
 I usually follow this flow:
 
 0. **Start a session**: `/start`
-1. **Create a PRD:**: `/prd here is what I want you to build`
+1. **Create a PRD**: `/prd here is what I want you to build`
 2. **Break down to tasks**: `/tasks @tasks/2025-06-15_feature-name-prd.org`
 3. **Start implementation**: `/impl @tasks/2025-06-15_feature-name-tasks.org`
 4. **Commit code**: `/commit`
