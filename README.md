@@ -5,7 +5,7 @@ streamline development workflows.
 
 ## Installation
 
-Copy all `.md` files to your Claude commands directory:
+Copy all `.md` files at the root to your Claude commands directory:
 
 ```bash
 cp *.md ~/.claude/commands/
@@ -13,40 +13,48 @@ cp *.md ~/.claude/commands/
 
 ## Commands
 
-### Project Management
+### Task & Project Planning
 
-- **build.md**: Build project and fix compilation errors/warnings
-- **check.md**: Check task list status against actual code implementation
-- **start.md**: Start a new coding session and understand project state
+- **prd.md** — Generate a Product Requirements Document (PRD) from a user
+  prompt
+- **tsd.md** — Generate a Technical Specification Document (TSD) from a PRD
+- **tasks.md** — Generate a detailed task list from a PRD (and optional
+  TSD)
+- **impl.md** — Work through tasks one sub-task at a time with
+  junior-developer safeguards
 
 ### Code Quality & Review
 
-- **review.md**: Review uncommitted/recent git changes with critical feedback
-- **shared-review.md**: Generate project structure documentation for code reviewers
-- **write-review.md**: Create structured code review documentation
-
-### Task & Project Planning
-
-- **prd.md**: Generate Product Requirements Document (PRD) from user prompts
-- **prj.md**: Create/update project overview document from existing PRDs
-- **tasks.md**: Generate detailed task lists from PRD files
-- **impl.md**: Task implementation with junior developer guidance
-- **learn.md**: Progressive teaching approach for junior developers
+- **review.md** — Review uncommitted or recent git changes with critical
+  feedback
+- **pr-review.md** — Checkout and review a GitHub PR with a structured
+  report
+- **security-review.md** — Security review of pending changes on the
+  current branch
 
 ### Development Workflow
 
-- **commit.md**: Commit code to GitHub with structured commit messages
-- **sc.md**: Review latest screenshot in screenshots directory
+- **build.md** — Build the project and fix compilation errors / failing
+  tests
+- **check.md** — Check task list status against actual code implementation
+- **commit.md** — Commit staged code with a descriptive message
 
-Each command includes detailed process steps, output formats, and interaction
-models tailored for structured development workflows.
+Each command is a self-contained markdown file with YAML frontmatter, a
+purpose, an ordered process, an output format, and explicit interaction
+gates where appropriate.
 
 ## How to Start?
 
-I usually follow this flow:
+The recommended flow:
 
-0. **Start a session**: `/start`
-1. **Create a PRD:**: `/prd here is what I want you to build`
-2. **Break down to tasks**: `/tasks @tasks/2025-06-15_feature-name-prd.org`
-3. **Start implementation**: `/impl @tasks/2025-06-15_feature-name-tasks.org`
-4. **Commit code**: `/commit`
+1. **Create a PRD:** `/prd here is what I want you to build`
+2. **Design the technical approach:**
+   `/tsd @tasks/2026-05-05-feature-name-prd.md`
+3. **Break down to tasks:**
+   `/tasks @tasks/2026-05-05-feature-name-prd.md @tasks/2026-05-05-feature-name-tsd.md`
+4. **Start implementation:**
+   `/impl @tasks/2026-05-05-feature-name-tasks.md`
+5. **Review before committing:** `/review`
+   (or `/pr-review <PR>` / `/security-review` for deeper passes)
+6. **Commit code:** `/commit`
+

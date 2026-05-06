@@ -1,17 +1,38 @@
+---
+description: Check task list status against actual code implementation
+argument-hint: [path to tasks file]
+---
+
 # Check Task List Status
 
-Check each tasks against the code and see which are implemented and which are
-not.
+## Purpose
+
+Compare each task in a task list against the code and update the list with
+tasks that have actually been implemented. Halt on the first incomplete
+task so the user can decide what to do next.
 
 ## Process
-1. **Examine Project:** Read project overview file in the `/tasks` directory
-    typically named `[project-name]-overview.org`.
-2. **Examine Tasks:** Read and examine tasks in tasks file.
-3. **Review Incomplete Tasks:** Review tasks in order. For each incomplete tasks
-   `[ ]`, review the code to determine if the task has been implement in code.
-4. **Update Task List:** For each task marked as incomplete, but that has been
-   completed, mark the task as complete. Follow the completion protocol:
-   - Mark each finished **sub‑task** `[X]`.
-   - Mark the **parent task** `[X]` once **all** its subtasks are `[X]`.
-5. **Halt Condition:** While processing tasks marked incomplete in order, halt
-   processing on the first task confirmed in code to be not implemented.
+
+Steps must be executed in numerical order. Complete each step before moving to
+the next.
+
+1. **Locate sources:** Read the tasks file from `$ARGUMENTS`. If a project
+   overview file exists in `/tasks/` (typically named
+   `[project-name]-overview.md`), read it for context.
+2. **Read tasks:** Build a mental model of all tasks and their statuses.
+3. **Review incomplete tasks in order:** For each task currently marked
+   `[ ]`, look at the code to determine whether it has been implemented.
+4. **Update the task list:** For each task that turns out to be implemented,
+   apply the completion protocol:
+   - Mark each finished sub-task `[x]`.
+   - Mark a parent task `[x]` once all its sub-tasks are `[x]`.
+5. **Halt on first miss:** Process incomplete tasks in order. Stop on the
+   first task confirmed in code as not yet implemented and report which one
+   it is.
+
+## Important
+
+- Do NOT start implementing missing tasks. Only update statuses.
+- Treat the code, not assumptions, as the source of truth for what is
+  actually done.
+

@@ -1,84 +1,98 @@
-# Generating a Product Requirements Document (PRD)
+---
+description: Generate a Product Requirements Document
+argument-hint: [brief description of the feature]
+---
 
-Create a detailed Product Requirements Document (PRD) in org-mode format, based
-on an initial user prompt. The PRD should be clear, actionable, and suitable for
-a junior developer to understand and implement the feature.
+# Generate a Product Requirements Document (PRD)
+
+## Purpose
+
+Create a detailed Product Requirements Document (PRD) in markdown based on an
+initial user prompt. The PRD should be clear, actionable, and suitable for a
+junior developer to understand and implement the feature.
 
 ## Process
 
-1. **Receive Initial Prompt:** The user provides a brief description or request
-   for a new feature or functionality.
-2. **Ask Clarifying Questions:** Before writing the PRD, the AI *must* ask
-   clarifying questions to gather sufficient detail. The goal is to understand
-   the "what" and "why" of the feature, not necessarily the "how" (which the
-   developer will figure out).
-3. **Generate PRD:** Based on the initial prompt and the user's answers to the
-   clarifying questions, generate a PRD using the structure outlined below.
-4. **Save PRD:** Save the generated document as `[YYYY-MM-DD]_[feature-name]-prd.org` inside
-   the `/tasks` directory, where [YYYY-MM-DD] is the current date, which can be
-   obtained by running `date +%Y=%m=%d`.
+Steps must be executed in numerical order. Complete each step before moving to
+the next.
+
+1. **Receive initial prompt:** Read the brief description of the feature or
+   functionality from `$ARGUMENTS`.
+2. **Ask clarifying questions:** Before writing the PRD, ask questions to
+   gather sufficient detail. Goal is to understand the "what" and "why", not
+   the "how". Use the `AskUserQuestion` tool when available.
+3. **Generate PRD:** Based on the initial prompt and the user's answers,
+   generate a PRD using the structure outlined below.
+4. **Save PRD:** Save as `[YYYY-MM-DD]-[feature-name]-prd.md` in the `/tasks/`
+   directory. Get the current date by running `date +%Y-%m-%d`.
 
 ## Clarifying Questions (Examples)
-The AI should adapt its questions based on the prompt, but here are some common areas to explore:
-* **Problem/Goal:** "What problem does this feature solve for the user?" or
-  "What is the main goal we want to achieve with this feature?"
-* **Target User:** "Who is the primary user of this feature?"
-* **Core Functionality:** "Can you describe the key actions a user should be able to perform with this feature?"
-* **User Stories:** "Could you provide a few user stories? (e.g., As a [type of
-  user], I want to [perform an action] so that [benefit].)"
-* **Acceptance Criteria:** "How will we know when this feature is successfully
-  implemented? What are the key success criteria?"
-* **Scope/Boundaries:** "Are there any specific things this feature *should not*
-  do (non-goals)?"
-* **Data Requirements:** "What kind of data does this feature need to display or
-  manipulate?"
-* **Design/UI:** "Are there any existing design mockups or UI guidelines to
-  follow?" or "Can you describe the desired look and feel?"
-* **Edge Cases:** "Are there any potential edge cases or error conditions we
-  should consider?"
+
+Adapt questions to the prompt. Common areas:
+
+- **Problem/Goal:** What problem does this feature solve? What is the main goal?
+- **Target User:** Who is the primary user of this feature?
+- **Core Functionality:** What key actions should a user be able to perform?
+- **User Stories:** Could you provide user stories? (As a [user], I want to
+  [action] so that [benefit].)
+- **Acceptance Criteria:** How will we know when this feature is successful?
+- **Scope/Boundaries:** Are there things this feature should NOT do (non-goals)?
+- **Data Requirements:** What data does this feature need to display or
+  manipulate?
+- **Design/UI:** Are there existing mockups or UI guidelines? Describe the
+  desired look and feel.
+- **Edge Cases:** Are there potential edge cases or error conditions to
+  consider?
 
 ## PRD Structure
-The generated PRD should include the following sections:
-1. **Introduction/Overview:** Briefly describe the feature and the problem it
+
+The generated PRD must include the following sections:
+
+1. **Introduction/Overview** — Briefly describe the feature and the problem it
    solves. State the goal.
-2. **Goals:** List the specific, measurable objectives for this feature.
-3. **User Stories:** Detail the user narratives describing feature usage and
+2. **Goals** — List specific, measurable objectives for this feature.
+3. **User Stories** — Detail user narratives describing feature usage and
    benefits.
-4. **Functional Requirements:** List the specific functionalities the feature
-   must have. Use clear, concise language (e.g., "The system must allow users to
-   upload a profile picture."). Number these requirements.
-5. **Non-Goals (Out of Scope):** Clearly state what this feature will *not*
+4. **Functional Requirements** — List specific functionalities. Use clear
+   language. Number each requirement.
+5. **Non-Goals (Out of Scope)** — Clearly state what this feature will NOT
    include to manage scope.
-6. **Design Considerations (Optional):** Link to mockups, describe UI/UX
-   requirements, or mention relevant components/styles if applicable.
-7. **Technical Considerations (Optional):** Mention any known technical
-   constraints, dependencies, or suggestions (e.g., "Should integrate with the
-   existing Auth module").
-8. **Success Metrics:** How will the success of this feature be measured? (e.g.,
-   "Increase user engagement by 10%", "Reduce support tickets related to X").
-9. **Open Questions:** List any remaining questions or areas needing further
-   clarification.
+6. **Design Considerations** *(optional)* — Link to mockups, describe UI/UX
+   requirements, mention relevant components or styles.
+7. **Technical Considerations** *(optional)* — Note known technical
+   constraints, dependencies, or suggestions.
+8. **Success Metrics** — How will the success of this feature be measured?
+9. **Open Questions** — List only questions that require the user's input or
+   decision. Do NOT use this section for design decisions, implementation
+   notes, or explanations of how things work. If a question can be resolved by
+   the author without user input, resolve it inline in the relevant section
+   instead. Number open questions (1., 2., 3., ...). For each one, describe
+   the issue, options if any, and a recommendation. If there are none, write
+   "None."
 
 ## Target Audience
-Assume the primary reader of the PRD is a **junior developer**. Therefore,
-requirements should be explicit, unambiguous, and avoid jargon where
-possible. Provide enough detail for them to understand the feature's purpose and
-core logic.
 
-## PRD Output
-* **Format:** org-mode (`.org`)
-* **Location:** `/tasks/`
-* **Filename:** `[YYYY-MM-DD]-[feature-name]-prd.org`
-* **Style:** Try and keep to 80 character row length. Trim empty characters in
-  line ends. VERY IMPORTANT: Always end files with an empty line.
-* **Header:** Start file with a org-mode header:
-```org-mode
-#+STARTUP: overview
-#+TITLE: [feature-name] - Product Requirements Document
-#+STARTUP: showall
-```
+Assume the primary reader of the PRD is a **junior developer**. Requirements
+should be explicit, unambiguous, and avoid jargon. Provide enough detail to
+understand the feature's purpose and core logic. Avoid technical implementation
+details.
 
-## Final instructions
-1. Do NOT start implementing the PRD
-2. Make sure to ask the user clarifying questions
-3. Take the user's answers to the clarifying questions and improve the PRD
+## Output Format
+
+- **Format:** markdown (`.md`)
+- **Location:** `/tasks/`
+- **Filename:** `[YYYY-MM-DD]-[feature-name]-prd.md`
+- **Style:** Keep to 80 character row length. Trim trailing whitespace. End
+  files with an empty line.
+- **Header:** Start the file with:
+
+  ```markdown
+  # [feature-name] - Product Requirements Document
+  ```
+
+## Important
+
+- Do NOT start implementing the PRD.
+- Make sure to ask clarifying questions before writing the PRD.
+- Take the user's answers and improve the PRD.
+
